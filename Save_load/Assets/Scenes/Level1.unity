@@ -371,6 +371,16 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114798863988823852, guid: 386edc2291beaa644832d72a0e218dd8,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1671858671}
+    - target: {fileID: 114792377759571070, guid: 386edc2291beaa644832d72a0e218dd8,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1671858671}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 386edc2291beaa644832d72a0e218dd8, type: 2}
   m_IsPrefabAsset: 0
@@ -436,3 +446,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1671858671 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114850521632851310, guid: 6ea96e56daba77d4184afa55f179e8d6,
+    type: 2}
+  m_PrefabInternal: {fileID: 689104100}
+  m_Script: {fileID: 11500000, guid: 053d288fff977a041a19250e94facbca, type: 3}

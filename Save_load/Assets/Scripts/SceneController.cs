@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System;
 
 public class SceneController : MonoBehaviour {
 
@@ -11,38 +14,71 @@ public class SceneController : MonoBehaviour {
     public float experience;
 
     private void Awake() {
-        if(sceneControl == null) {
+        if (sceneControl == null) {
             DontDestroyOnLoad(gameObject);
             sceneControl = this;
-        } else if(sceneControl != this) {
+        } else if (sceneControl != this) {
             Destroy(gameObject);
         }
     }
 
     public void NextScene() {
-        if ((SceneManager.sceneCountInBuildSettings-1) > SceneManager.GetActiveScene().buildIndex) {
+        if ((SceneManager.sceneCountInBuildSettings - 1) > SceneManager.GetActiveScene().buildIndex) {
             print("loading " + (SceneManager.GetActiveScene().buildIndex + 1));
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         } else {
             print("This is the last scene");
         }
-        
+
     }
 
     public void PreviousScene() {
         if (SceneManager.GetActiveScene().buildIndex != 0) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-            print("loading " + (SceneManager.GetActiveScene().buildIndex -1 ));
+            print("loading " + (SceneManager.GetActiveScene().buildIndex - 1));
         } else {
             print("This is the first scene");
         }
-        
+
     }
     private void OnGUI() {
         GUIStyle style = new GUIStyle();
         style.fontSize = 56;
-        GUI.Label(new Rect(10, 10, 180, 80), "Active scene index : "  + SceneManager.GetActiveScene().buildIndex, style);
+        GUI.Label(new Rect(10, 10, 180, 80), "Active scene index : " + SceneManager.GetActiveScene().buildIndex, style);
     }
-   
 
+
+    public void Save()
+    {
+        FileStream file = File.Open(Application.persistentDataPath + "/gamesceneinfo.dat", FileMode.Create);
+        SceneData data = new SceneData();
+
+        data.currentScene = SceneManager.GetActiveScene().buildIndex;
+
+        BinaryFormatter bf = new BinaryFormatter();
+        bf.Serialize(file, data);
+        file.Close();
+    }
+
+    public void Load()
+    {
+
+        BinaryFormatter bf = new BinaryFormatter();
+        if (!File.Exists(Application.persistentDataPath + "/gamesceneinfo.dat"))
+        {
+            throw new Exception("Game file pas là");
+        }
+        FileStream file = File.Open(Application.persistentDataPath + "/gamesceneinfo.dat", FileMode.Open);
+        SceneData data = (SceneData)bf.Deserialize(file);
+
+        SceneManager.LoadScene(data.currentScene);
+
+    }
+
+}
+
+[Serializable]
+class SceneData
+{
+    public int currentScene;
 }
